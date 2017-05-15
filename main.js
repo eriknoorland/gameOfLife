@@ -1,18 +1,39 @@
-const numRows = 4;
+const gol = document.getElementById('gol');
+const numRows = 50;
 const numCols = numRows;
-const state = [];
 
-for(let i = 0; i < numRows; i++) {
-  state[i] = [];
+let state = [];
+let interval;
 
-  for(let j = 0; j < numCols; j++) {
-    state[i][j] = Math.round(Math.random());
-  }
+/**
+ * Start
+ */
+function start() {
+  state = getInitialState();
+
+  renderState(state);
+
+  // renderState(determineState(state));
+  interval = setTimeout(update, 250);
 }
 
-renderState(state);
-renderState(determineState(state));
-// setTimeout(update, 1000);
+/**
+ * Returns a 'random' initial state
+ * @return {Array}
+ */
+function getInitialState() {
+  let state = [];
+
+  for(let i = 0; i < numRows; i++) {
+    state[i] = [];
+
+    for(let j = 0; j < numCols; j++) {
+      state[i][j] = Math.round(Math.random());
+    }
+  }
+
+  return state;
+}
 
 /**
  * Returns a new state array based on the current state
@@ -33,7 +54,7 @@ function determineState(state) {
       let prevRow = getPrevArrayIndex(state, i);
       let nextRow = getNextArrayIndex(state, i);
       let prevCol = getPrevArrayIndex(state[i], j);
-      let nextCol = getPrevArrayIndex(state[i], j);
+      let nextCol = getNextArrayIndex(state[i], j);
 
       let rows = [prevRow, i, nextRow];
       let cols = [prevCol, j, nextCol];
@@ -46,7 +67,7 @@ function determineState(state) {
         }
       }
 
-      newState[i][j] = getNewState(cellState, numLiveNeighbours);
+      newState[i][j] = getNewCellState(cellState, numLiveNeighbours);
     }
   }
 
@@ -54,21 +75,21 @@ function determineState(state) {
 }
 
 /**
- * Renders the givven state
+ * Renders the given state
  * @param {Array} state
  */
 function renderState(state) {
+  let content = '';
+
   for(let i = 0; i < state.length; i++) {
     for(let j = 0; j < state[i].length; j++) {
-      // state[i][j];
+      content += (state[i][j] + ' ');
     }
+
+    content += '\n';
   }
 
-  console.log(state[0]);
-  console.log(state[1]);
-  console.log(state[2]);
-  console.log(state[3]);
-  console.log(' ');
+  gol.innerText = content;
 }
 
 /**
@@ -77,17 +98,25 @@ function renderState(state) {
 function update() {
   let newState = determineState(state);
 
+  if(JSON.stringify(newState) === JSON.stringify(state)) {
+    clearTimeout(interval);
+    start();
+    return;
+  }
+
   renderState(newState);
-  setTimeout(update, 1000);
+  interval = setTimeout(update, 250);
+
+  state = newState;
 }
 
 /**
- * Returns the new state based on its current state and the number of live neighbours
+ * Returns a new cell state based on its current state and the number of live neighbours
  * @param {Number} currentState
  * @param {Number} numLiveNeighbours
  * @return {Number}
  */
-function getNewState(currentState, numLiveNeighbours) {
+function getNewCellState(currentState, numLiveNeighbours) {
   switch(true) {
     case currentState && numLiveNeighbours < 2:
     case currentState && numLiveNeighbours > 3:
@@ -131,3 +160,5 @@ function getNextArrayIndex(array, index) {
 
   return nextIndex;
 }
+
+start();
