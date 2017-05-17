@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./vendor/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="./vendor/mocha.js"></script>
+    <script src="./vendor/chai.js"></script>
+
+    <script>
+      mocha.setup('bdd');
+      expect = chai.expect;
+      should = chai.should();
+    </script>
+
+    <script src="../main.js"></script>
+    <script src="./test.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>

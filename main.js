@@ -13,7 +13,6 @@ function start() {
 
   renderState(state);
 
-  // renderState(determineState(state));
   interval = setTimeout(update, 250);
 }
 
@@ -61,6 +60,10 @@ function determineState(state) {
 
       for(let k = 0; k < rows.length; k++) {
         for(let l = 0; l < cols.length; l++) {
+          if(i === rows[k] && j === cols[l]) {
+            continue;
+          }
+
           if(state[rows[k]][cols[l]] === 1) {
             numLiveNeighbours++;
           }
@@ -83,13 +86,13 @@ function renderState(state) {
 
   for(let i = 0; i < state.length; i++) {
     for(let j = 0; j < state[i].length; j++) {
-      content += (state[i][j] + ' ');
+      content += `<span class="state state-${state[i][j]}"></span>`
     }
 
-    content += '\n';
+    content += '<br />';
   }
 
-  gol.innerText = content;
+  gol.innerHTML = content;
 }
 
 /**
@@ -160,5 +163,3 @@ function getNextArrayIndex(array, index) {
 
   return nextIndex;
 }
-
-start();

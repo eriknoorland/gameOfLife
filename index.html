@@ -2,9 +2,31 @@
 <html>
   <head>
     <title>Game Of Life</title>
+    <style>
+      #gol {
+        font-size: 0;
+      }
+
+      .state {
+        display: inline-block;
+        margin: 0 1px 1px 0;
+        width: 5px;
+        height: 5px;
+      }
+
+      .state-1 {
+        background: #ccc;
+      }
+    </style>
   </head>
   <body>
-    <pre id="gol"></pre>
+    <div id="gol"></div>
+
     <script src="main.js"></script>
+    <script>
+      window.onload = function() {
+        start();
+      }
+    </script>
   </body>
 </html>
