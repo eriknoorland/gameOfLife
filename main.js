@@ -1,6 +1,7 @@
 const gol = document.getElementById('gol');
-const numRows = 50;
+const numRows = 100;
 const numCols = numRows;
+const intervalDuration = 100;
 
 let state = [];
 let interval;
@@ -13,7 +14,7 @@ function start() {
 
   renderState(state);
 
-  interval = setTimeout(update, 250);
+  interval = setTimeout(update, intervalDuration);
 }
 
 /**
@@ -101,14 +102,14 @@ function renderState(state) {
 function update() {
   let newState = determineState(state);
 
-  if(JSON.stringify(newState) === JSON.stringify(state)) {
+  if(newState.toString() === state.toString()) {
     clearTimeout(interval);
     start();
     return;
   }
 
   renderState(newState);
-  interval = setTimeout(update, 250);
+  interval = setTimeout(update, intervalDuration);
 
   state = newState;
 }
