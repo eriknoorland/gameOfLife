@@ -2,19 +2,16 @@ const gol = document.getElementById('gol');
 const numRows = 100;
 const numCols = numRows;
 const intervalDuration = 100;
-
-let state = [];
 let interval;
 
 /**
  * Start
  */
 function start() {
-  state = getInitialState();
+  const state = getInitialState();
 
   renderState(state);
-
-  interval = setTimeout(update, intervalDuration);
+  interval = setTimeout(update.bind(null, state), intervalDuration);
 }
 
 /**
@@ -22,14 +19,16 @@ function start() {
  * @return {Array}
  */
 function getInitialState() {
-  let state = [];
+  const state = [];
 
-  for(let i = 0; i < numRows; i++) {
-    state[i] = [];
+  for (let i = 0; i < numRows; i++) {
+    const row = [];
 
-    for(let j = 0; j < numCols; j++) {
-      state[i][j] = Math.round(Math.random());
+    for (let j = 0; j < numCols; j++) {
+      row.push(Math.round(Math.random()));
     }
+
+    state.push(row);
   }
 
   return state;
@@ -43,29 +42,26 @@ function getInitialState() {
 function determineState(state) {
   let newState = [];
 
-  for(let i = 0; i < state.length; i++) {
+  for (let i = 0; i < state.length; i++) {
     newState[i] = [];
 
-    for(let j = 0; j < state[i].length; j++) {
-      let cellState = state[i][j];
+    for (let j = 0; j < state[i].length; j++) {
+      const cellState = state[i][j];
+      const prevRow = getPrevArrayIndex(state, i);
+      const nextRow = getNextArrayIndex(state, i);
+      const prevCol = getPrevArrayIndex(state[i], j);
+      const nextCol = getNextArrayIndex(state[i], j);
+      const rows = [prevRow, i, nextRow];
+      const cols = [prevCol, j, nextCol];
       let numLiveNeighbours = 0;
-      let newCellState;
 
-      let prevRow = getPrevArrayIndex(state, i);
-      let nextRow = getNextArrayIndex(state, i);
-      let prevCol = getPrevArrayIndex(state[i], j);
-      let nextCol = getNextArrayIndex(state[i], j);
-
-      let rows = [prevRow, i, nextRow];
-      let cols = [prevCol, j, nextCol];
-
-      for(let k = 0; k < rows.length; k++) {
-        for(let l = 0; l < cols.length; l++) {
-          if(i === rows[k] && j === cols[l]) {
+      for (let k = 0; k < rows.length; k++) {
+        for (let l = 0; l < cols.length; l++) {
+          if (i === rows[k] && j === cols[l]) {
             continue;
           }
 
-          if(state[rows[k]][cols[l]] === 1) {
+          if (state[rows[k]][cols[l]] === 1) {
             numLiveNeighbours++;
           }
         }
@@ -85,13 +81,10 @@ function determineState(state) {
 function renderState(state) {
   let content = '';
 
-  for(let i = 0; i < state.length; i++) {
-    for(let j = 0; j < state[i].length; j++) {
-      content += `<span class="state state-${state[i][j]}"></span>`
-    }
-
-    content += '<br />';
-  }
+  state.forEach((row) => {
+    content += row.reduce((acc, col) => `${acc}<span class="state state-${col}"></span>`, '');
+    content += '<br>';
+  });
 
   gol.innerHTML = content;
 }
@@ -99,19 +92,17 @@ function renderState(state) {
 /**
  * Updates the state every x amount of time
  */
-function update() {
+function update(state) {
   let newState = determineState(state);
 
-  if(newState.toString() === state.toString()) {
+  if (newState.toString() === state.toString()) {
     clearTimeout(interval);
     start();
     return;
   }
 
   renderState(newState);
-  interval = setTimeout(update, intervalDuration);
-
-  state = newState;
+  interval = setTimeout(update.bind(null, newState), intervalDuration);
 }
 
 /**
@@ -121,7 +112,7 @@ function update() {
  * @return {Number}
  */
 function getNewCellState(currentState, numLiveNeighbours) {
-  switch(true) {
+  switch (true) {
     case currentState && numLiveNeighbours < 2:
     case currentState && numLiveNeighbours > 3:
       return 0;
@@ -140,13 +131,7 @@ function getNewCellState(currentState, numLiveNeighbours) {
  * @return {Number}
  */
 function getPrevArrayIndex(array, index) {
-  let prevIndex = index - 1;
-
-  if(prevIndex === -1) {
-    prevIndex = array.length - 1;
-  }
-
-  return prevIndex;
+  return --index === -1 ? array.length - 1 : index;
 }
 
 /**
@@ -156,11 +141,5 @@ function getPrevArrayIndex(array, index) {
  * @return {Number}
  */
 function getNextArrayIndex(array, index) {
-  let nextIndex = index + 1;
-
-  if(nextIndex === array.length) {
-    nextIndex = 0;
-  }
-
-  return nextIndex;
+  return ++index === array.length ? 0 : index;
 }
