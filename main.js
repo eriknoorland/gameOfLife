@@ -82,8 +82,7 @@ function renderState(state) {
   let content = '';
 
   state.forEach((row) => {
-    content += row.reduce((acc, col) => `${acc}<span class="state state-${col}"></span>`, '');
-    content += '<br>';
+    content += row.reduce((acc, col) => `${acc}${renderCell(col)}`, '') + '<br>';
   });
 
   gol.innerHTML = content;
@@ -122,6 +121,15 @@ function getNewCellState(currentState, numLiveNeighbours) {
     default:
       return currentState;
   }
+}
+
+/**
+ * Renders a cell with the given state
+ * @param {int} state
+ * @return {String}
+ */
+function renderCell(state) {
+  return `<span class="state state-${state}"></span>`
 }
 
 /**
