@@ -1,0 +1,22 @@
+{
+  "name": "gameoflife",
+  "version": "1.0.0",
+  "description": "Rules",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.1.0",
+    "vitest": "^1.2.2"
+  }
+}
