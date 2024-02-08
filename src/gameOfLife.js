@@ -17,13 +17,11 @@ export default (element, initialState) => {
    * @param {Array} state
    */
   function renderState(state) {
-    let content = '';
-  
-    state.forEach((row) => {
-      content += row.reduce((acc, col) => `${acc}${renderCell(col)}`, '') + '<br>';
-    });
-  
-    element.innerHTML = content;
+    element.innerHTML = state.reduce((acc, row) => {
+      return `${acc}${row.reduce((acc, col) => {
+        return `${acc}${renderCell(col)}`;
+      }, '') + '<br>'}`;
+    }, '');
   }
   
   function update(state) {
