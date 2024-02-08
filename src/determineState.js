@@ -3,10 +3,10 @@ import getPrevArrayIndex from './getPrevArrayIndex';
 import getNewCellState from './getNewCellState';
 
 /**
-   * Returns a new state array based on the current state
-   * @param {Array} state
-   * @return {Array}
-   */
+ * Returns a new state array based on the current state
+ * @param {Array} state
+ * @return {Array}
+ */
 export default (state) => {
   let newState = [];
 

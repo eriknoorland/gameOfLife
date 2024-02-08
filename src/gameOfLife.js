@@ -1,7 +1,6 @@
-import renderCell from './renderCell';
 import determineState from './determineState';
 
-export default (element, initialState) => {
+export default (initialState, renderer) => {
   const intervalDuration = 100;
   let interval;
 
@@ -17,11 +16,7 @@ export default (element, initialState) => {
    * @param {Array} state
    */
   function renderState(state) {
-    element.innerHTML = state.reduce((acc, row) => {
-      return `${acc}${row.reduce((acc, col) => {
-        return `${acc}${renderCell(col)}`;
-      }, '') + '<br>'}`;
-    }, '');
+    renderer(state);
   }
   
   function update(state) {
