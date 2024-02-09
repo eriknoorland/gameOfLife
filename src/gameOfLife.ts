@@ -7,7 +7,7 @@ export default (initialState: number[][], renderer: (state: number[][]) => void)
   function start() {
     const state = initialState;
   
-    renderState(state);
+    renderer(state);
     interval = setTimeout(update.bind(null, state), intervalDuration);
   }
   
@@ -20,12 +20,8 @@ export default (initialState: number[][], renderer: (state: number[][]) => void)
       return;
     }
   
-    renderState(newState);
-    interval = setTimeout(update.bind(null, newState), intervalDuration);
-  }
-  
-  function renderState(state: number[][]) {
     renderer(state);
+    interval = setTimeout(update.bind(null, newState), intervalDuration);
   }
 
   return {
