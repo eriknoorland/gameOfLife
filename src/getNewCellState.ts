@@ -1,10 +1,4 @@
-/**
- * Returns a new cell state based on its current state and the number of live neighbours
- * @param {Number} currentState
- * @param {Number} numLiveNeighbours
- * @return {Number}
- */
-export default (currentState, numLiveNeighbours) => {
+export default (currentState: number, numLiveNeighbours: number) => {
   switch (true) {
     case currentState && numLiveNeighbours < 2:
     case currentState && numLiveNeighbours > 3:

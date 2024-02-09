@@ -2,7 +2,7 @@ import gameOfLife from './src/gameOfLife';
 
 const randomInitialState = getRandomInitialState(10, 10);
   
-function getRandomInitialState(numRows, numCols) {
+function getRandomInitialState(numRows: number, numCols: number) {
   const state = [];
 
   for (let i = 0; i < numRows; i++) {
@@ -32,12 +32,14 @@ const gliderInitialState = [
 ];
 
 const golElement = document.getElementById('gol');
-const domRenderer = (state) => {
-  golElement.innerHTML = state.reduce((acc, row) => {
-    return `${acc}${row.reduce((acc, col) => {
-      return `${acc}<span class="state state-${col}"></span>`;
-    }, '') + '<br>'}`;
-  }, '');
+const domRenderer = (state: number[][]) => {
+  if (golElement) {
+    golElement.innerHTML = state.reduce((acc, row) => {
+      return `${acc}${row.reduce((acc, col) => {
+        return `${acc}<span class="state state-${col}"></span>`;
+      }, '') + '<br>'}`;
+    }, '');
+  }
 };
 
 // const canvas = document.getElementById('canvas');

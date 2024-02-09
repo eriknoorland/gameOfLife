@@ -2,13 +2,8 @@ import getNextArrayIndex from './getNextArrayIndex';
 import getPrevArrayIndex from './getPrevArrayIndex';
 import getNewCellState from './getNewCellState';
 
-/**
- * Returns a new state array based on the current state
- * @param {Array} state
- * @return {Array}
- */
-export default (state) => {
-  let newState = [];
+export default (state: number[][]): number[][] => {
+  let newState: number[][] = [];
 
   for (let i = 0; i < state.length; i++) {
     newState[i] = [];

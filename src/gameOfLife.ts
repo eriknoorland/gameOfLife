@@ -1,8 +1,8 @@
 import determineState from './determineState';
 
-export default (initialState, renderer) => {
+export default (initialState: number[][], renderer: (state: number[][]) => void) => {
   const intervalDuration = 100;
-  let interval;
+  let interval: ReturnType<typeof setTimeout>;
 
   function start() {
     const state = initialState;
@@ -11,15 +11,7 @@ export default (initialState, renderer) => {
     interval = setTimeout(update.bind(null, state), intervalDuration);
   }
   
-  /**
-   * Renders the given state
-   * @param {Array} state
-   */
-  function renderState(state) {
-    renderer(state);
-  }
-  
-  function update(state) {
+  function update(state: number[][]) {
     let newState = determineState(state);
   
     if (newState.toString() === state.toString()) {
@@ -30,6 +22,10 @@ export default (initialState, renderer) => {
   
     renderState(newState);
     interval = setTimeout(update.bind(null, newState), intervalDuration);
+  }
+  
+  function renderState(state: number[][]) {
+    renderer(state);
   }
 
   return {
