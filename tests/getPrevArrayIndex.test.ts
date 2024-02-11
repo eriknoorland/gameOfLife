@@ -1,4 +1,4 @@
-import getPrevArrayIndex from '../src/getPrevArrayIndex';
+import getPrevArrayIndex from '../src/utils/getPrevArrayIndex';
 
 describe('getPrevArrayIndex', function() {
   it('should return the given index minus 1', function() {

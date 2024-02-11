@@ -1,4 +1,4 @@
-import getNextArrayIndex from '../src/getNextArrayIndex';
+import getNextArrayIndex from '../src/utils/getNextArrayIndex';
 
 describe('getNextArrayIndex', function() {
   it('should return the next array index when the given index is smaller than the total number of items - 1', function() {

@@ -1,5 +1,5 @@
-import getNextArrayIndex from './getNextArrayIndex';
-import getPrevArrayIndex from './getPrevArrayIndex';
+import getNextArrayIndex from './utils/getNextArrayIndex';
+import getPrevArrayIndex from './utils/getPrevArrayIndex';
 import getNewCellState from './getNewCellState';
 
 export default (state: number[][]): number[][] => {
