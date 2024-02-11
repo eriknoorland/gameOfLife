@@ -1,14 +1,26 @@
 import determineState from './determineState';
 
-export default (initialState: number[][], renderer: (state: number[][]) => void) => {
-  const intervalDuration = 100;
+interface Options {
+  intervalDuration?: number;
+};
+
+export default (
+  initialState: number[][],
+  renderer: (state: number[][]) => void,
+  options: Options = {
+    intervalDuration: 100,
+  }
+) => {
   let interval: ReturnType<typeof setTimeout>;
 
   function start() {
     const state = initialState;
   
     renderer(state);
-    interval = setTimeout(update.bind(null, state), intervalDuration);
+    
+    interval = setTimeout(() => {
+      update(state);
+    }, options.intervalDuration);
   }
   
   function update(state: number[][]) {
@@ -21,7 +33,10 @@ export default (initialState: number[][], renderer: (state: number[][]) => void)
     }
   
     renderer(state);
-    interval = setTimeout(update.bind(null, newState), intervalDuration);
+
+    interval = setTimeout(() => {
+      update(newState);
+    }, options.intervalDuration);
   }
 
   return {
